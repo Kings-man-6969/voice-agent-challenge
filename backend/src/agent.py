@@ -1,4 +1,6 @@
 import logging
+# add near top of file (adjust import path if needed)
+from tools.coffee_tool import update_order, finalize_order, get_missing_field
 
 from dotenv import load_dotenv
 from livekit.agents import (
@@ -15,6 +17,7 @@ from livekit.agents import (
     # function_tool,
     # RunContext
 )
+from livekit.agents import function_tool, RunContext
 from livekit.plugins import murf, silero, google, deepgram, noise_cancellation
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
@@ -23,31 +26,62 @@ logger = logging.getLogger("agent")
 load_dotenv(".env.local")
 
 
+
+
 class Assistant(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""You are a helpful voice AI assistant. The user is interacting with you via voice, even if you perceive the conversation as text.
-            You eagerly assist users with their questions by providing information from your extensive knowledge.
-            Your responses are concise, to the point, and without any complex formatting or punctuation including emojis, asterisks, or other symbols.
-            You are curious, friendly, and have a sense of humor.""",
+            instructions="""
+You are BrewBuddy, a friendly coffee shop barista.
+
+Start every conversation by introducing yourself:
+"Hi, I am BrewBuddy, your barista."
+
+Your job is to collect a complete coffee order with these fields:
+- drinkType
+- size
+- milk
+- extras
+- name
+
+Ask questions in this exact order:
+1) "What drink would you like?"
+2) "What size would you like? Small, medium, or large?"
+3) "What type of milk would you prefer?"
+4) "Any extras? Caramel, whipped cream, sugar, extra shot, or none?"
+5) "What name should I save the order under?"
+
+RULES:
+- When the user gives an answer, emit EXACTLY:
+  CALL_TOOL updateOrder {"field":"<fieldName>","value":"<value>"}
+
+- When ALL fields are filled, emit EXACTLY:
+  CALL_TOOL finalizeOrder {}
+
+AFTER finalizeOrder:
+You MUST say:
+"Great! Your order is saved. Have a nice day."
+
+Do not skip this final confirmation.
+Do not use emojis or special characters.
+Keep responses short and friendly.
+
+
+""",
         )
 
-    # To add tools, use the @function_tool decorator.
-    # Here's an example that adds a simple weather tool.
-    # You also have to add `from livekit.agents import function_tool, RunContext` to the top of this file
-    # @function_tool
-    # async def lookup_weather(self, context: RunContext, location: str):
-    #     """Use this tool to look up current weather information in the given location.
-    #
-    #     If the location is not supported by the weather service, the tool will indicate this. You must tell the user the location's weather is unavailable.
-    #
-    #     Args:
-    #         location: The location to look up weather information for (e.g. city name)
-    #     """
-    #
-    #     logger.info(f"Looking up weather for {location}")
-    #
-    #     return "sunny with a temperature of 70 degrees."
+    # Coffee Order Tools
+
+    @function_tool
+    async def updateOrder(self, ctx: RunContext, field: str, value: str):
+        """Update a specific field of the coffee order."""
+        return update_order(field, value)
+
+    @function_tool
+    async def finalizeOrder(self, ctx: RunContext):
+        """Finalize and save the coffee order as a JSON file."""
+        return finalize_order()
+
 
 
 def prewarm(proc: JobProcess):

@@ -174,7 +174,7 @@ export default function Base() {
             className="w-full"
             controls={{
               leave: true,
-              chat: true,
+              chat: false,
               camera: true,
               microphone: true,
               screenShare: true,
