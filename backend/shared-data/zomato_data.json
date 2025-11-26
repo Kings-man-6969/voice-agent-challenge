@@ -1,0 +1,43 @@
+{
+    "company_info": {
+        "name": "Zomato",
+        "description": "Zomato is an Indian multinational restaurant aggregator and food delivery company. It provides information, menus and user-reviews of restaurants as well as food delivery options from partner restaurants in select cities.",
+        "mission": "Better food for more people."
+    },
+    "faq": [
+        {
+            "question": "What does Zomato do?",
+            "answer": "Zomato connects customers, restaurants, and delivery partners. We help customers discover restaurants, order food delivery, and make dining reservations. For restaurants, we provide a platform to reach more customers and manage orders."
+        },
+        {
+            "question": "How can I list my restaurant on Zomato?",
+            "answer": "You can register your restaurant online via the 'Add your restaurant' link on our website. You'll need to provide basic details, FSSAI license, and PAN card information."
+        },
+        {
+            "question": "Is there a fee to list my restaurant?",
+            "answer": "Currently, there are no upfront listing fees for registering your restaurant on Zomato in India."
+        },
+        {
+            "question": "What are the commission charges?",
+            "answer": "Commission rates typically range from 15% to 30% per order, depending on factors like location, average order value, and whether you use Zomato's delivery fleet or your own."
+        },
+        {
+            "question": "What is Zomato Gold?",
+            "answer": "Zomato Gold is a subscription program that offers members exclusive benefits like discounts on dining out and free delivery at partner restaurants."
+        },
+        {
+            "question": "Do you offer advertising for restaurants?",
+            "answer": "Yes, we offer advertisement solutions to help restaurants improve their visibility on the platform through sponsored listings."
+        },
+        {
+            "question": "How do I get paid for orders?",
+            "answer": "Payouts are processed weekly. The amount transferred is the order value minus the commission and other applicable charges."
+        }
+    ],
+    "pricing": {
+        "listing_fee": "Free",
+        "commission": "18-25% for Zomato delivery, 5-7% for self-delivery",
+        "payment_gateway_fee": "~1.8%",
+        "advertising": "Variable based on campaign budget"
+    }
+}
