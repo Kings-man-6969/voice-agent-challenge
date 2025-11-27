@@ -36,7 +36,7 @@ const BOTTOM_VIEW_MOTION_PROPS = {
   transition: {
     duration: 0.3,
     delay: 0.5,
-    ease: 'easeOut',
+    ease: 'easeOut' as const,
   },
 };
 
@@ -92,6 +92,16 @@ export const SessionView = ({
 
   return (
     <section className="bg-background relative z-10 h-full w-full overflow-hidden" {...props}>
+      {/* Bank Header */}
+      <div className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white/90 backdrop-blur-sm border-b">
+        <div className="flex items-center gap-2">
+          <img src="/icici-logo.png" alt="ICICI Bank" className="h-8" />
+        </div>
+        <div className="text-xs font-semibold text-[#F37E20] uppercase tracking-wider border border-[#F37E20] px-2 py-1 rounded-full">
+          Fraud Alert Active
+        </div>
+      </div>
+
       {/* Chat Transcript */}
       <div
         className={cn(

@@ -20,20 +20,20 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveKit',
-  pageTitle: 'LiveKit Voice Agent',
-  pageDescription: 'A voice agent built with LiveKit',
+  companyName: 'ICICI Bank',
+  pageTitle: 'ICICI Bank - Fraud Alert',
+  pageDescription: 'Secure Fraud Detection Voice Agent',
 
   supportsChatInput: true,
   supportsVideoInput: true,
   supportsScreenShare: true,
   isPreConnectBufferEnabled: true,
 
-  logo: '/lk-logo.svg',
-  accent: '#002cf2',
+  logo: '/lk-logo.svg', // We will replace this later or use text
+  accent: '#F37E20', // ICICI Orange
   logoDark: '/lk-logo-dark.svg',
-  accentDark: '#1fd5f9',
-  startButtonText: 'Start call',
+  accentDark: '#F37E20',
+  startButtonText: 'Connect to Fraud Specialist',
 
   // for LiveKit Cloud Sandbox
   sandboxId: undefined,

@@ -1,8 +1,7 @@
 import logging
-import json
+import sqlite3
 import pathlib
-import os
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass, asdict
 from typing import Optional, Dict, Any
 
 from dotenv import load_dotenv
@@ -20,7 +19,7 @@ from livekit.agents import (
 from livekit.plugins import murf, silero, deepgram, google, noise_cancellation
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
-logger = logging.getLogger("day5-sdr")
+logger = logging.getLogger("day6-fraud-agent")
 logger.setLevel(logging.INFO)
 
 load_dotenv(".env.local")
@@ -28,135 +27,84 @@ load_dotenv(".env.local")
 # --- Data Structures ---
 
 @dataclass
-class LeadData:
-    name: Optional[str] = None
-    company: Optional[str] = None
-    email: Optional[str] = None
-    role: Optional[str] = None
-    use_case: Optional[str] = None
-    team_size: Optional[str] = None
-    timeline: Optional[str] = None
-    summary: Optional[str] = None
+class FraudCase:
+    username: str
+    security_identifier: str
+    card_ending: str
+    transaction_name: str
+    transaction_amount: str
+    transaction_time: str
+    transaction_category: str
+    transaction_source: str
+    transaction_location: str
+    security_question: str
+    security_answer: str
+    status: str
+    outcome_note: str
 
 @dataclass
 class SessionData:
-    lead: LeadData = field(default_factory=LeadData)
-    company_data: Dict[str, Any] = field(default_factory=dict)
-    leads_file_path: str = "day5_leads.json"
+    fraud_case: Optional[FraudCase] = None
+    verified: bool = False
 
 RunContext_T = RunContext[SessionData]
 
-# --- SDR Agent ---
+# --- Database Helper ---
 
-class SDRAgent(Agent):
-    def __init__(self, company_data: Dict[str, Any]) -> None:
-        self.company_data = company_data
+def get_db_path():
+    return pathlib.Path(__file__).parent.parent / "fraud_cases.db"
+
+def get_fraud_case(username: str) -> Optional[FraudCase]:
+    try:
+        conn = sqlite3.connect(get_db_path())
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM fraud_cases WHERE username = ?", (username,))
+        row = cursor.fetchone()
+        conn.close()
         
-        # Construct System Prompt
-        company_info = company_data.get("company_info", {})
-        faq = company_data.get("faq", [])
-        pricing = company_data.get("pricing", {})
-        
-        faq_text = "\n".join([f"Q: {item['question']}\nA: {item['answer']}" for item in faq])
-        pricing_text = json.dumps(pricing, indent=2)
-        
-        instructions = f"""
-        You are an SDR (Sales Development Representative) for {company_info.get('name', 'Zomato')}.
-        
-        Company Description: {company_info.get('description')}
-        Mission: {company_info.get('mission')}
-        
-        Your Goal:
-        1. Greet the visitor warmly and ask what brought them here.
-        2. Answer their questions about the company, products, and pricing using the provided FAQ and Pricing data.
-        3. QUALIFY the lead by collecting the following information naturally during the conversation:
-           - Name
-           - Company Name
-           - Email Address
-           - Role/Job Title
-           - Use Case (Why do they need us?)
-           - Team Size
-           - Timeline (When do they want to start?)
-        
-        4. Do NOT interrogate the user. Ask for one or two details at a time while answering their questions.
-        5. If asked a question NOT in the FAQ, politely say you don't have that specific info but can connect them with a specialist.
-        
-        FAQ Data:
-        {faq_text}
-        
-        Pricing Data:
-        {pricing_text}
-        
-        When you have collected most of the info or the user indicates they are done, use the 'finish_call' tool to summarize.
-        Always update the lead info using 'update_lead_info' as soon as you get new details.
-        """
-        
+        if row:
+            return FraudCase(*row)
+        return None
+    except Exception as e:
+        logger.error(f"Error fetching fraud case: {e}")
+        return None
+
+def update_fraud_case_status(username: str, status: str, note: str):
+    try:
+        conn = sqlite3.connect(get_db_path())
+        cursor = conn.cursor()
+        cursor.execute("UPDATE fraud_cases SET status = ?, outcome_note = ? WHERE username = ?", (status, note, username))
+        conn.commit()
+        conn.close()
+        logger.info(f"Updated case for {username}: {status} - {note}")
+    except Exception as e:
+        logger.error(f"Error updating fraud case: {e}")
+
+# --- Fraud Agent ---
+
+class FraudAgent(Agent):
+    def __init__(self, instructions: str) -> None:
         super().__init__(
             instructions=instructions,
             stt=deepgram.STT(model="nova-3"),
             llm=google.LLM(model="gemini-2.5-flash"),
-            tts=murf.TTS(voice="en-US-miles", style="Promo"), # Miles has a professional tone
+            tts=murf.TTS(voice="en-US-miles", style="Promo"),
             turn_detection=MultilingualModel(),
         )
 
     @function_tool
-    async def update_lead_info(
-        self, 
-        context: RunContext_T, 
-        name: Optional[str] = None,
-        company: Optional[str] = None,
-        email: Optional[str] = None,
-        role: Optional[str] = None,
-        use_case: Optional[str] = None,
-        team_size: Optional[str] = None,
-        timeline: Optional[str] = None
-    ):
+    async def update_case_status(self, context: RunContext_T, status: str, outcome_note: str):
         """
-        Update the lead information with any new details collected from the user.
-        Call this whenever the user provides any of these fields.
+        Update the status of the fraud case in the database.
+        status options: 'confirmed_safe', 'confirmed_fraud', 'verification_failed'
+        outcome_note: A brief summary of the call outcome.
         """
-        lead = context.userdata.lead
-        if name: lead.name = name
-        if company: lead.company = company
-        if email: lead.email = email
-        if role: lead.role = role
-        if use_case: lead.use_case = use_case
-        if team_size: lead.team_size = team_size
-        if timeline: lead.timeline = timeline
-        
-        # Save to file immediately (append to a list in JSON)
-        self._save_lead_to_file(context.userdata)
-        
-        return "Lead information updated."
-
-    @function_tool
-    async def finish_call(self, context: RunContext_T):
-        """
-        Call this when the user says they are done, or 'that's all', or 'thanks'.
-        This will generate a summary and end the conversation.
-        """
-        lead = context.userdata.lead
-        
-        # Generate a verbal summary
-        summary_text = f"Thanks for chatting, {lead.name or 'there'}. "
-        summary_text += f"I've noted that you're from {lead.company or 'your company'} "
-        summary_text += f"and looking to use Zomato for {lead.use_case or 'your business'}. "
-        summary_text += f"We'll be in touch at {lead.email or 'your email'} soon!"
-        
-        lead.summary = summary_text
-        self._save_lead_to_file(context.userdata)
-        
-        return summary_text
-
-    def _save_lead_to_file(self, userdata: SessionData):
-        # We are only saving the current lead state to a specific file for this session
-        current_lead_path = pathlib.Path(__file__).parent.parent / "leads" / "current_lead.json"
-        
-        # Ensure directory exists
-        current_lead_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        with open(current_lead_path, "w") as f:
-            json.dump(asdict(userdata.lead), f, indent=2)
+        case = context.userdata.fraud_case
+        if case:
+            update_fraud_case_status(case.username, status, outcome_note)
+            return "Case updated successfully."
+        else:
+            return "No active case to update."
 
 # --- Entrypoint ---
 
@@ -164,18 +112,60 @@ def prewarm(proc: JobProcess):
     proc.userdata["vad"] = silero.VAD.load()
 
 async def entrypoint(ctx: JobContext):
-    # Load Company Data
-    data_path = pathlib.Path(__file__).parent.parent / "shared-data" / "zomato_data.json"
-    try:
-        with open(data_path, "r") as f:
-            company_data = json.load(f)
-    except Exception as e:
-        logger.error(f"Failed to load company data: {e}")
-        company_data = {}
-
-    userdata = SessionData(company_data=company_data)
+    # Pre-load a case for the demo (Simulating outbound call)
+    # Randomly select a user to simulate different scenarios
+    import random
+    available_users = ["John", "Jane", "Alice", "Bob", "Charlie"]
+    target_username = random.choice(available_users)
     
-    agent = SDRAgent(company_data=company_data)
+    logger.info(f"Starting fraud alert call for: {target_username}")
+    
+    case = get_fraud_case(target_username)
+    
+    if not case:
+        logger.error(f"Could not find case for {target_username}")
+        return
+
+    userdata = SessionData(fraud_case=case)
+    
+    # Inject dynamic instructions with case details
+    initial_instructions = f"""
+        You are a Fraud Detection Representative for I.C.I.C.I. Bank.
+
+        Context:
+        You are calling the customer, {case.username}, regarding a suspicious transaction on their account ending in {case.card_ending}.
+
+        Your Objective:
+        1. Begin speaking immediately. Do not wait for the customer to respond first.
+        2. Introduce yourself using this exact sentence:
+        "Hello, this is the Fraud Department at I.C.I.C.I. Bank. Am I speaking with {case.username}?"
+        3. Confirm that you are speaking to the correct person Say "Can you answer a security question to confirm your identity?".
+        4. Conduct a security verification by asking the security question:
+        "{case.security_question}".
+        5. If the customer's answer matches "{case.security_answer}" (allowing minor natural variations), continue.
+        6. If the answer does not match, politely end the call.
+        7. After successful verification, clearly read out the suspicious transaction details:
+            - Merchant: {case.transaction_name}
+            - Amount: {case.transaction_amount}
+            - Time: {case.transaction_time}
+            - Location: {case.transaction_location}
+        8. Ask the customer: "Did you authorize this transaction?"
+        9. If the customer says YES (authorized):
+            - Mark the case as "confirmed_safe".
+            - Say: "Thank you. I've marked this as safe. You can continue using your card."
+            - End the call.
+        10. If the customer says NO (unauthorized):
+            - Mark the case as "confirmed_fraud".
+            - Say: "I've marked this as fraudulent. Your card is now blocked and a new one will be mailed to you."
+            - End the call.
+
+        Tone:
+        Maintain a professional, calm, reassuring, and efficient style. Never ask for the customer's name; you already know it.
+        Note: Make sure you follow this step by step and not miss any instructions
+
+    """
+    
+    agent = FraudAgent(instructions=initial_instructions)
 
     session = AgentSession[SessionData](
         userdata=userdata,
