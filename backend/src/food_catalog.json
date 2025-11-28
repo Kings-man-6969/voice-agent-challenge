@@ -1,0 +1,535 @@
+[
+  {
+    "id": "item_001",
+    "name": "Whole Wheat Bread",
+    "category": "Groceries",
+    "price": 3.50,
+    "tags": [
+      "vegan",
+      "bakery",
+      "staple"
+    ]
+  },
+  {
+    "id": "item_002",
+    "name": "Organic Milk",
+    "category": "Groceries",
+    "price": 4.20,
+    "tags": [
+      "dairy",
+      "organic"
+    ]
+  },
+  {
+    "id": "item_003",
+    "name": "Free-Range Eggs (Dozen)",
+    "category": "Groceries",
+    "price": 5.00,
+    "tags": [
+      "protein",
+      "breakfast"
+    ]
+  },
+  {
+    "id": "item_004",
+    "name": "Peanut Butter",
+    "category": "Groceries",
+    "price": 4.50,
+    "tags": [
+      "vegan",
+      "pantry",
+      "protein"
+    ]
+  },
+  {
+    "id": "item_005",
+    "name": "Strawberry Jam",
+    "category": "Groceries",
+    "price": 3.80,
+    "tags": [
+      "vegan",
+      "sweet",
+      "spread"
+    ]
+  },
+  {
+    "id": "item_006",
+    "name": "Spaghetti Pasta",
+    "category": "Groceries",
+    "price": 2.00,
+    "tags": [
+      "vegan",
+      "italian",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_007",
+    "name": "Marinara Sauce",
+    "category": "Groceries",
+    "price": 3.00,
+    "tags": [
+      "vegan",
+      "italian",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_008",
+    "name": "Cheddar Cheese",
+    "category": "Groceries",
+    "price": 4.00,
+    "tags": [
+      "dairy",
+      "cheese"
+    ]
+  },
+  {
+    "id": "item_009",
+    "name": "Potato Chips",
+    "category": "Snacks",
+    "price": 1.50,
+    "tags": [
+      "snack",
+      "salty"
+    ]
+  },
+  {
+    "id": "item_010",
+    "name": "Chocolate Bar",
+    "category": "Snacks",
+    "price": 1.20,
+    "tags": [
+      "sweet",
+      "treat"
+    ]
+  },
+  {
+    "id": "item_011",
+    "name": "Margherita Pizza",
+    "category": "Prepared Food",
+    "price": 12.00,
+    "tags": [
+      "vegetarian",
+      "italian",
+      "ready-to-eat"
+    ]
+  },
+  {
+    "id": "item_012",
+    "name": "Veggie Sandwich",
+    "category": "Prepared Food",
+    "price": 7.50,
+    "tags": [
+      "vegetarian",
+      "lunch"
+    ]
+  },
+  {
+    "id": "item_013",
+    "name": "Chicken Caesar Salad",
+    "category": "Prepared Food",
+    "price": 9.00,
+    "tags": [
+      "fresh",
+      "healthy",
+      "lunch"
+    ]
+  },
+  {
+    "id": "item_014",
+    "name": "Cola",
+    "category": "Beverages",
+    "price": 1.00,
+    "tags": [
+      "drink",
+      "soda"
+    ]
+  },
+  {
+    "id": "item_015",
+    "name": "Orange Juice",
+    "category": "Beverages",
+    "price": 3.50,
+    "tags": [
+      "drink",
+      "fruit",
+      "breakfast"
+    ]
+  },
+  {
+    "id": "item_016",
+    "name": "Penne Pasta",
+    "category": "Groceries",
+    "price": 2.20,
+    "tags": [
+      "vegan",
+      "italian",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_017",
+    "name": "Arrabbiata Sauce",
+    "category": "Groceries",
+    "price": 3.50,
+    "tags": [
+      "vegan",
+      "italian",
+      "spicy",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_018",
+    "name": "Parmesan Cheese",
+    "category": "Groceries",
+    "price": 5.50,
+    "tags": [
+      "dairy",
+      "cheese",
+      "italian"
+    ]
+  },
+  {
+    "id": "item_019",
+    "name": "Olive Oil",
+    "category": "Groceries",
+    "price": 8.00,
+    "tags": [
+      "vegan",
+      "cooking",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_020",
+    "name": "Basmati Rice",
+    "category": "Groceries",
+    "price": 4.00,
+    "tags": [
+      "vegan",
+      "grains",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_021",
+    "name": "Mixed Vegetables",
+    "category": "Frozen Foods",
+    "price": 3.00,
+    "tags": [
+      "vegan",
+      "healthy",
+      "frozen"
+    ]
+  },
+  {
+    "id": "item_022",
+    "name": "Soy Sauce",
+    "category": "Groceries",
+    "price": 2.50,
+    "tags": [
+      "vegan",
+      "asian",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_023",
+    "name": "Tofu",
+    "category": "Groceries",
+    "price": 2.80,
+    "tags": [
+      "vegan",
+      "protein",
+      "healthy"
+    ]
+  },
+  {
+    "id": "item_024",
+    "name": "Tomatoes",
+    "category": "Produce",
+    "price": 2.00,
+    "tags": [
+      "vegan",
+      "fresh",
+      "vegetable"
+    ]
+  },
+  {
+    "id": "item_025",
+    "name": "Mozzarella Cheese",
+    "category": "Groceries",
+    "price": 4.50,
+    "tags": [
+      "dairy",
+      "cheese",
+      "italian"
+    ]
+  },
+  {
+    "id": "item_026",
+    "name": "Basil Pesto",
+    "category": "Groceries",
+    "price": 4.00,
+    "tags": [
+      "vegetarian",
+      "italian",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_027",
+    "name": "Flour",
+    "category": "Groceries",
+    "price": 1.80,
+    "tags": [
+      "baking",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_028",
+    "name": "Sugar",
+    "category": "Groceries",
+    "price": 1.50,
+    "tags": [
+      "baking",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_029",
+    "name": "Cocoa Powder",
+    "category": "Groceries",
+    "price": 3.20,
+    "tags": [
+      "baking",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_030",
+    "name": "Butter",
+    "category": "Groceries",
+    "price": 4.00,
+    "tags": [
+      "dairy",
+      "cooking",
+      "baking"
+    ]
+  },
+  {
+    "id": "item_031",
+    "name": "Bananas",
+    "category": "Produce",
+    "price": 1.80,
+    "tags": [
+      "fruit",
+      "healthy"
+    ]
+  },
+  {
+    "id": "item_032",
+    "name": "Apples",
+    "category": "Produce",
+    "price": 2.50,
+    "tags": [
+      "fruit",
+      "fresh"
+    ]
+  },
+  {
+    "id": "item_033",
+    "name": "Onions",
+    "category": "Produce",
+    "price": 1.20,
+    "tags": [
+      "vegetable",
+      "cooking"
+    ]
+  },
+  {
+    "id": "item_034",
+    "name": "Potatoes",
+    "category": "Produce",
+    "price": 2.20,
+    "tags": [
+      "vegetable",
+      "cooking"
+    ]
+  },
+  {
+    "id": "item_035",
+    "name": "Garlic",
+    "category": "Produce",
+    "price": 1.00,
+    "tags": [
+      "vegetable",
+      "flavor"
+    ]
+  },
+  {
+    "id": "item_036",
+    "name": "Black Pepper",
+    "category": "Groceries",
+    "price": 2.50,
+    "tags": [
+      "spice",
+      "cooking"
+    ]
+  },
+  {
+    "id": "item_037",
+    "name": "Salt",
+    "category": "Groceries",
+    "price": 1.00,
+    "tags": [
+      "spice",
+      "pantry"
+    ]
+  },
+  {
+    "id": "item_038",
+    "name": "Chili Powder",
+    "category": "Groceries",
+    "price": 1.50,
+    "tags": [
+      "spice",
+      "spicy"
+    ]
+  },
+  {
+    "id": "item_039",
+    "name": "Lemon",
+    "category": "Produce",
+    "price": 0.80,
+    "tags": [
+      "fruit",
+      "fresh"
+    ]
+  },
+  {
+    "id": "item_040",
+    "name": "Banana Smoothie Mix",
+    "category": "Beverages",
+    "price": 3.00,
+    "tags": [
+      "drink",
+      "sweet"
+    ]
+  },
+  {
+    "id": "item_041",
+    "name": "Green Tea Bags",
+    "category": "Beverages",
+    "price": 2.50,
+    "tags": [
+      "drink",
+      "healthy"
+    ]
+  },
+  {
+    "id": "item_042",
+    "name": "Instant Coffee",
+    "category": "Beverages",
+    "price": 4.50,
+    "tags": [
+      "drink",
+      "caffeine"
+    ]
+  },
+  {
+    "id": "item_043",
+    "name": "Brown Bread",
+    "category": "Groceries",
+    "price": 3.20,
+    "tags": [
+      "healthy",
+      "bakery"
+    ]
+  },
+  {
+    "id": "item_044",
+    "name": "Yogurt Cup",
+    "category": "Groceries",
+    "price": 1.40,
+    "tags": [
+      "dairy",
+      "healthy"
+    ]
+  },
+  {
+    "id": "item_045",
+    "name": "Corn Flakes",
+    "category": "Groceries",
+    "price": 3.80,
+    "tags": [
+      "breakfast",
+      "cereal"
+    ]
+  },
+  {
+    "id": "item_046",
+    "name": "Oats",
+    "category": "Groceries",
+    "price": 3.00,
+    "tags": [
+      "healthy",
+      "breakfast"
+    ]
+  },
+  {
+    "id": "item_047",
+    "name": "Frozen French Fries",
+    "category": "Frozen Foods",
+    "price": 3.00,
+    "tags": [
+      "frozen",
+      "snack"
+    ]
+  },
+  {
+    "id": "item_048",
+    "name": "Paneer",
+    "category": "Groceries",
+    "price": 5.00,
+    "tags": [
+      "vegetarian",
+      "protein",
+      "indian"
+    ]
+  },
+  {
+    "id": "item_049",
+    "name": "Cucumber",
+    "category": "Produce",
+    "price": 1.00,
+    "tags": [
+      "fresh",
+      "vegetable"
+    ]
+  },
+  {
+    "id": "item_050",
+    "name": "Bell Peppers",
+    "category": "Produce",
+    "price": 2.50,
+    "tags": [
+      "fresh",
+      "vegetable"
+    ]
+  },
+  {
+    "id": "item_051",
+    "name": "Lettuce",
+    "category": "Produce",
+    "price": 1.50,
+    "tags": [
+      "fresh",
+      "vegetable",
+      "healthy"
+    ]
+  }
+]

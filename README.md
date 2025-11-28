@@ -212,3 +212,22 @@ Good luck with the challenge!
 ---
 
 Built for the AI Voice Agents Challenge by murf.ai
+
+## Completed Challenges
+
+### Day 7: Zepto Ordering Agent
+**Goal:** Build a voice-activated grocery ordering assistant for Zepto (10-minute delivery).
+
+**Key Features:**
+- **Smart Catalog Search:** Finds items even with vague queries (e.g., "chips" -> "Potato Chips").
+- **Intelligent Cart Management:** Adds, removes, and updates item quantities with natural language.
+- **Recipe Assistance:** Adds all ingredients for a known recipe (e.g., "ingredients for pasta") to the cart automatically.
+- **Bulk Ordering:** Handles multiple items in a single sentence.
+- **Order Tracking:** Simulates placing an order and tracking its status.
+
+**Tech Stack:**
+- **Orchestration:** LiveKit Agents
+- **STT:** Deepgram Nova-3
+- **LLM:** Google Gemini 2.5 Flash
+- **TTS:** Murf Falcon (en-US-miles)
+
