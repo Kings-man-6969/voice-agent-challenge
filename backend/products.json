@@ -1,0 +1,134 @@
+[
+    {
+        "id": "mug-001",
+        "name": "Classic White Mug",
+        "description": "A simple and elegant ceramic mug for hot beverages.",
+        "price": 500,
+        "currency": "INR",
+        "category": "mugs",
+        "attributes": {
+            "color": "white"
+        }
+    },
+    {
+        "id": "mug-002",
+        "name": "Matte Black Mug",
+        "description": "A sleek matte black mug ideal for work desks and late-night coding.",
+        "price": 650,
+        "currency": "INR",
+        "category": "mugs",
+        "attributes": {
+            "color": "black"
+        }
+    },
+    {
+        "id": "mug-003",
+        "name": "Code Mode Mug",
+        "description": "White mug with a fun 'Do Not Disturb, I’m Coding' print.",
+        "price": 750,
+        "currency": "INR",
+        "category": "mugs",
+        "attributes": {
+            "color": "white"
+        }
+    },
+    {
+        "id": "tshirt-001",
+        "name": "Dev Life T-Shirt",
+        "description": "Black cotton tee with 'Eat. Sleep. Code. Repeat.' print.",
+        "price": 1200,
+        "currency": "INR",
+        "category": "tshirts",
+        "attributes": {
+            "size": [
+                "S",
+                "M",
+                "L",
+                "XL"
+            ],
+            "color": "black"
+        }
+    },
+    {
+        "id": "tshirt-002",
+        "name": "Syntax Error T-Shirt",
+        "description": "White t-shirt with a bold 'Syntax Error' design for debugging pros.",
+        "price": 1100,
+        "currency": "INR",
+        "category": "tshirts",
+        "attributes": {
+            "size": [
+                "M",
+                "L",
+                "XL"
+            ],
+            "color": "white"
+        }
+    },
+    {
+        "id": "hoodie-001",
+        "name": "Cozy Grey Hoodie",
+        "description": "A warm, minimalist grey hoodie perfect for winter coding sessions.",
+        "price": 2500,
+        "currency": "INR",
+        "category": "hoodies",
+        "attributes": {
+            "size": [
+                "M",
+                "L"
+            ],
+            "color": "grey"
+        }
+    },
+    {
+        "id": "hoodie-002",
+        "name": "Black Debug Hoodie",
+        "description": "Black hoodie with a stylish 'Debug Mode' print.",
+        "price": 2600,
+        "currency": "INR",
+        "category": "hoodies",
+        "attributes": {
+            "size": [
+                "S",
+                "M",
+                "L",
+                "XL"
+            ],
+            "color": "black"
+        }
+    },
+    {
+        "id": "hoodie-003",
+        "name": "Binary Code Hoodie",
+        "description": "Dark blue hoodie featuring a full-width binary pattern.",
+        "price": 2700,
+        "currency": "INR",
+        "category": "hoodies",
+        "attributes": {
+            "size": [
+                "M",
+                "L",
+                "XL"
+            ],
+            "color": "blue"
+        }
+    },
+    {
+        "id": "sticker-001",
+        "name": "Developer Sticker Pack",
+        "description": "A pack of 12 high-quality dev-themed stickers for laptops and tablets.",
+        "price": 199,
+        "currency": "INR",
+        "category": "accessories",
+        "attributes": {}
+    },
+    {
+        "id": "sticker-002",
+        "name": "Dark Mode Sticker Pack",
+        "description": "A set of 10 premium stickers themed around dark-mode UI design.",
+        "price": 249,
+        "currency": "INR",
+        "category": "accessories",
+        "attributes": {}
+    }
+]

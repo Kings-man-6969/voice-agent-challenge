@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cd7afba7-4649-4a3d-996b-52afa985eca8",
+    "items": [
+      {
+        "product_id": "hoodie-002",
+        "quantity": 4,
+        "unit_price": 2600,
+        "currency": "INR"
+      }
+    ],
+    "total": 10400.0,
+    "currency": "INR",
+    "created_at": "2025-11-30T15:28:33.904013"
+  },
+  {
+    "id": "1c5fe510-9bfa-417d-9a1c-2b60eb510937",
+    "items": [
+      {
+        "product_id": "mug-002",
+        "quantity": 5,
+        "unit_price": 650,
+        "currency": "INR"
+      }
+    ],
+    "total": 3250.0,
+    "currency": "INR",
+    "created_at": "2025-11-30T15:30:07.821931"
+  }
+]
