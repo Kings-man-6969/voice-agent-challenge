@@ -20,6 +20,13 @@ This is a full-stack voice AI agent application built with LiveKit, featuring:
 ```
 
 ## Recent Changes
+- **2024-12-01**: Improv Battle Game UI
+  - Created custom welcome screen with gradient branding and game show theme
+  - Added player name input field with session persistence
+  - Built game header component showing player name during sessions
+  - Updated app configuration with Improv Battle branding and description
+  - Fixed TypeScript motion/ease typing errors
+  
 - **2024-12-01**: Initial Replit setup
   - Configured Next.js to run on port 5000 with 0.0.0.0 host
   - Set up allowed origins for Replit proxy compatibility
