@@ -1,0 +1,137 @@
+Today you will build a voice-first improv game show:
+
+Game Concept: “Improv Battle”
+This is not a quiz or trivia game. It is a short-form improv performance game.
+
+Each round (single-player):
+
+Host sets up an improv scenario
+(e.g., “You are a barista who has to tell a customer that their latte is actually a portal to another dimension.”)
+You (the player) act it out for a bit.
+The host reacts:
+Comments on what you did.
+Might tease, critique, or praise.
+Moves to the next scenario.
+In multi-player (optional advanced goal):
+
+Host sets the scene.
+Player 1 starts the improv.
+Player 2 must continue the story from Player 1’s last line.
+Host reacts to how well the handoff and continuation worked.
+Primary Goal (Required) – Single-Player Improv Battle
+Build a single-player improv host where:
+
+The user joins from the browser.
+The AI plays the role of a game show host.
+The game runs through several improv scenarios.
+The host reacts in a varied, realistic way.
+Behaviour Requirements
+Your system should:
+
+Let a single user join a game room from the web UI
+
+Simple join screen:
+Text field for “Name” (contestant name).
+Button: “Start Improv Battle”.
+On click:
+Connect to a LiveKit voice agent.
+Start the improv with AI host.
+Use a strong “improv host” persona
+
+In your system prompt, define:
+
+Role: “You are the host of a TV improv show called ‘Improv Battle’.”
+
+Style:
+
+High-energy, witty, and clear about rules.
+
+Reactions should be realistic:
+
+Sometimes amused, sometimes unimpressed, sometimes pleasantly surprised.
+Not always supportive; light teasing and honest critique are allowed.
+Stay respectful and non-abusive.
+Structure:
+
+Introduce the show and explain the basic rules.
+
+Run N improv rounds (e.g., 3–5).
+
+For each round:
+
+Set a scenario.
+Ask the player to improvise.
+Once they finish, react and move on.
+Maintain basic game state in backend
+
+Use a simple state object per session, for example:
+
+improv_state = {
+    "player_name": None,
+    "current_round": 0,
+    "max_rounds": 3,
+    "rounds": [],  # each: {"scenario": str, "host_reaction": str}
+    "phase": "intro",  # "intro" | "awaiting_improv" | "reacting" | "done"
+}
+The backend should:
+
+Set player_name from the first answer if not provided explicitly.
+Increment current_round as each scenario completes.
+Move phase between awaiting_improv and reacting.
+Generate improv scenarios and listen for player performance
+
+Prepare a list of scenarios (JSON) or generate them via LLM.
+
+Each scenario should be:
+
+Clear: who the player is, what’s happening, what the tension is.
+A prompt that encourages playing a character or situation.
+Examples of scenarios:
+
+“You are a time-travelling tour guide explaining modern smartphones to someone from the 1800s.”
+“You are a restaurant waiter who must calmly tell a customer that their order has escaped the kitchen.”
+“You are a customer trying to return an obviously cursed object to a very skeptical shop owner.”
+Flow per round:
+
+Host: announces the scenario and clearly tells the player to start improvising.
+Player: responds in character.
+When the player stops, or indicates they are done (e.g., pauses and says “Okay” or “End scene”), the host reacts.
+You can use simple heuristics for “end of scene”, such as:
+
+A specific phrase (“End scene”) or
+A maximum time / number of user turns.
+Host reactions that feel varied and realistic
+
+After each scene:
+
+Host should:
+
+Comment on what worked, what was weird, or what was flat.
+
+Mix positive and critical feedback:
+
+Sometimes: “That was hilarious, especially the part where…”
+Sometimes: “That felt a bit rushed; you could have leaned more into the character.”
+To encourage this:
+
+Add to the prompt that the host should randomly choose between more supportive, neutral, or mildly critical tones, while staying constructive and safe.
+Store the reaction text in improv_state["rounds"].
+
+Provide a short closing summary
+
+When current_round reaches max_rounds:
+
+Host should:
+
+Summarize what kind of improviser the player seemed to be:
+
+Emphasis, for example, on character, absurdity, emotional range, etc.
+Mention specific moments or scenes that stood out.
+
+Thank the player and close the show.
+
+Handle early exit
+
+If the user clearly indicates they want to stop (e.g., “stop game”, “end show”), the host should:
+
+Confirm and gracefully end the session.
