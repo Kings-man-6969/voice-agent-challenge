@@ -6,6 +6,7 @@ import type { AppConfig } from '@/app-config';
 import { ChatTranscript } from '@/components/app/chat-transcript';
 import { PreConnectMessage } from '@/components/app/preconnect-message';
 import { TileLayout } from '@/components/app/tile-layout';
+import { GameScenario } from '@/components/app/game-scenario';
 import {
   AgentControlBar,
   type ControlBarControls,
@@ -103,7 +104,31 @@ export const SessionView = ({
   const { playerName } = useSession();
   const messages = useChatMessages();
   const [chatOpen, setChatOpen] = useState(false);
+  const [currentRound, setCurrentRound] = useState(1);
+  const [scenario, setScenario] = useState(
+    'Get ready for your first improv challenge! Your AI host will guide you through hilarious scenarios.'
+  );
+  const [isRoundActive, setIsRoundActive] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  // Simulate game progression based on messages
+  useEffect(() => {
+    if (messages.length > 0) {
+      setIsRoundActive(true);
+      const roundNum = Math.min(1 + Math.floor(messages.length / 4), 5);
+      setCurrentRound(roundNum);
+
+      // Update scenario based on round
+      const scenarios = [
+        'You are a time traveler stranded in ancient Egypt. Convince the Pharaoh you\'re from the future!',
+        'You\'re a detective investigating why all the pigeons in the city have disappeared.',
+        'You must convince someone to buy an invisible sandwich for $1000.',
+        'You\'re a yoga instructor teaching aliens how to meditate.',
+        'The finale: You\'re a superhero with the lamest power imaginable – describe it!',
+      ];
+      setScenario(scenarios[roundNum - 1] || scenarios[4]);
+    }
+  }, [messages]);
 
   const controls: ControlBarControls = {
     leave: true,
@@ -134,11 +159,24 @@ export const SessionView = ({
       >
         <Fade top className="absolute inset-x-4 top-0 h-40" />
         <ScrollArea ref={scrollAreaRef} className="px-4 pt-40 pb-[150px] md:px-6 md:pb-[180px]">
-          <ChatTranscript
-            hidden={!chatOpen}
-            messages={messages}
-            className="mx-auto max-w-2xl space-y-3 transition-opacity duration-300 ease-out"
-          />
+          <div className="mx-auto max-w-2xl space-y-6">
+            {/* Game Scenario Card */}
+            {!chatOpen && (
+              <GameScenario
+                round={currentRound}
+                totalRounds={5}
+                scenario={scenario}
+                isActive={isRoundActive}
+              />
+            )}
+            
+            {/* Chat Transcript */}
+            <ChatTranscript
+              hidden={!chatOpen}
+              messages={messages}
+              className="space-y-3 transition-opacity duration-300 ease-out"
+            />
+          </div>
         </ScrollArea>
       </div>
 
