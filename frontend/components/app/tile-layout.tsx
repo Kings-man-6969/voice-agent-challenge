@@ -42,9 +42,9 @@ const classNames = {
   agentChatOpenWithoutSecondTile: ['col-start-1 row-start-1', 'col-span-2', 'place-content-center'],
   // Agent
   // chatOpen: false
-  // layout: Column 1 / Row 1 / Column-Span 2 / Row-Span 3
-  // align: x-center y-center
-  agentChatClosed: ['col-start-1 row-start-1', 'col-span-2 row-span-3', 'place-content-center'],
+  // layout: Bottom-Right Corner
+  // align: x-end y-end
+  agentChatClosed: ['absolute bottom-0 right-0'],
   // Second tile
   // chatOpen: true,
   // hasSecondTile: true
@@ -92,9 +92,17 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
   const videoHeight = agentVideoTrack?.publication.dimensions?.height ?? 0;
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-8 bottom-32 z-50 md:top-12 md:bottom-40">
-      <div className="relative mx-auto h-full max-w-2xl px-4 md:px-0">
-        <div className={cn(classNames.grid)}>
+    <div className={cn(
+      'pointer-events-none fixed z-40',
+      chatOpen 
+        ? 'inset-x-0 top-16 md:top-20 bottom-32 md:bottom-40' 
+        : 'inset-x-0 top-20 md:top-28 bottom-32 md:bottom-40'
+    )}>
+      <div className={cn(
+        'relative mx-auto h-full max-w-2xl px-4 md:px-0',
+        !chatOpen && 'relative'
+      )}>
+        <div className={cn(classNames.grid, !chatOpen && 'relative h-full')}>
           {/* Agent */}
           <div
             className={cn([
@@ -116,7 +124,7 @@ export function TileLayout({ chatOpen }: TileLayoutProps) {
                   }}
                   animate={{
                     opacity: 1,
-                    scale: chatOpen ? 1 : 5,
+                    scale: chatOpen ? 1 : 1,
                   }}
                   transition={{
                     ...ANIMATION_TRANSITION,
