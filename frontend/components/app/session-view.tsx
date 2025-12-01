@@ -15,6 +15,7 @@ import { useConnectionTimeout } from '@/hooks/useConnectionTimout';
 import { useDebugMode } from '@/hooks/useDebug';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '../livekit/scroll-area/scroll-area';
+import { useSession } from './session-provider';
 
 const MotionBottom = motion.create('div');
 
@@ -36,7 +37,7 @@ const BOTTOM_VIEW_MOTION_PROPS = {
   transition: {
     duration: 0.3,
     delay: 0.5,
-    ease: 'easeOut',
+    ease: 'easeOut' as const,
   },
 };
 
@@ -58,6 +59,36 @@ export function Fade({ top = false, bottom = false, className }: FadeProps) {
     />
   );
 }
+
+function GameHeader({ playerName }: { playerName: string }) {
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-background via-background/95 to-transparent pb-8 pt-4">
+      <div className="mx-auto max-w-2xl px-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full blur opacity-50" />
+              <div className="relative bg-background rounded-full p-2">
+                <span className="text-lg">🎭</span>
+              </div>
+            </div>
+            <div>
+              <h1 className="text-sm font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+                IMPROV BATTLE
+              </h1>
+              <p className="text-xs text-muted-foreground">Live Game Show</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 bg-card/80 backdrop-blur-sm rounded-full px-3 py-1.5 border border-border/50">
+            <span className="text-xs text-muted-foreground">Player:</span>
+            <span className="text-sm font-semibold text-foreground">{playerName}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface SessionViewProps {
   appConfig: AppConfig;
 }
@@ -69,6 +100,7 @@ export const SessionView = ({
   useConnectionTimeout(200_000);
   useDebugMode({ enabled: IN_DEVELOPMENT });
 
+  const { playerName } = useSession();
   const messages = useChatMessages();
   const [chatOpen, setChatOpen] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -92,7 +124,8 @@ export const SessionView = ({
 
   return (
     <section className="bg-background relative z-10 h-full w-full overflow-hidden" {...props}>
-      {/* Chat Transcript */}
+      <GameHeader playerName={playerName || 'Player'} />
+      
       <div
         className={cn(
           'fixed inset-0 grid grid-cols-1 grid-rows-1',
@@ -109,10 +142,8 @@ export const SessionView = ({
         </ScrollArea>
       </div>
 
-      {/* Tile Layout */}
       <TileLayout chatOpen={chatOpen} />
 
-      {/* Bottom */}
       <MotionBottom
         {...BOTTOM_VIEW_MOTION_PROPS}
         className="fixed inset-x-3 bottom-0 z-50 md:inset-x-12"
